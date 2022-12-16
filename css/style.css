@@ -13,8 +13,12 @@
 }
 
 .container {
-  border: solid;
   padding: 10px;
+}
+
+.container01 {
+  border: solid;
+  border-radius: 2%;
 }
 
 /*# sourceMappingURL=style.css.map */
