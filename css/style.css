@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;514&amp;display=swap");
+* {
+  color: white;
+}
+
+.header {
+  font-size: 30px;
+  font-weight: bold;
+  font-family: Rubik;
+}
+.header #navItem:hover {
+  color: #b9b9b9;
+}
+
+.container {
+  border: solid;
+  padding: 10px;
+}
+
+/*# sourceMappingURL=style.css.map */
