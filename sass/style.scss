@@ -26,3 +26,16 @@
     border-radius: 2%;
     // background-color:azure;
 }
+
+#sample-image {
+
+    background: url('/images/placeholder.jpg') no-repeat scroll 0 0;
+}
+
+#imageSrc {
+    max-width: 600px;
+    background: url('/images/placeholder.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

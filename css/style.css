@@ -1,8 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;514&amp;display=swap");
-* {
-  color: white;
-}
-
 .header {
   font-size: 30px;
   font-weight: bold;
@@ -19,6 +15,18 @@
 .container01 {
   border: solid;
   border-radius: 2%;
+}
+
+#sample-image {
+  background: url("/images/placeholder.jpg") no-repeat scroll 0 0;
+}
+
+#imageSrc {
+  max-width: 600px;
+  background: url("/images/placeholder.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /*# sourceMappingURL=style.css.map */
