@@ -92,7 +92,7 @@
                 <div class="col align-items-center">
                     <div class="container container01">
                         <!-- <img src="./images/lena_color.jpg" class="img-fluid" alt="Lena"> -->
-                        <img class="img-fluid" id="imageSrc"/>
+                        <img class="img-fluid" id="imageSrc" />
                         <div class="container text-center">
                             <button type="button" class="btn btn-light">
                                 <i class="bi bi-arrow-90deg-up text-dark"></i>
@@ -178,7 +178,7 @@
                                 </div>
                                 <p class="text-center">OR</p>
                                 <!-- <img id="imageSrc" alt="No Image" /> -->
-                                <div class="caption text-center"><input type="file" name="file" id="fileInput"/></div>
+                                <div class="caption text-center"><input type="file" name="file" id="fileInput" /></div>
                             </div>
 
                             <!-- Accordion -->
@@ -195,9 +195,88 @@
                                         <div id="collapseOne" class="accordion-collapse collapse show"
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                <div class="row text-dark">
+                                                <!-- <div class="row text-dark">
                                                     Ruido 1
+                                                </div> -->
+
+
+                                                <div class="accordion" id="accordionRuido">
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingOneRuido">
+                                                            <button class="accordion-button" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#collapseOneRuido" aria-expanded="true"
+                                                                aria-controls="collapseOneRuido">
+                                                                Salt and pepper
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseOneRuido"
+                                                            class="accordion-collapse collapse show"
+                                                            aria-labelledby="headingOneRuido"
+                                                            data-bs-parent="#accordionRuido">
+                                                            <div class="accordion-body">
+
+                                                                <form>
+                                                                    <div class="mb-3">
+                                                                        <label for="probabilidade"
+                                                                            class="form-label">Probabilidade</label>
+                                                                        <input type="probabilidade" class="form-control">
+                                                                        <div class="form-text">O valor da
+                                                                            probabilidade. Caso o número aleatório seja
+                                                                            menor que ele, o pixel vai ser substituído
+                                                                            pela cor preta. Caso seja maior que (1 -
+                                                                            prob), será da cor branca.
+                                                                            Ex: 0.05</div>
+                                                                    </div>
+
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Aplicar</button>
+                                                                </form>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingTwoRuido">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#collapseTwoRuido" aria-expanded="false"
+                                                                aria-controls="collapseTwoRuido">
+                                                                Gaussiano
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseTwoRuido" class="accordion-collapse collapse"
+                                                            aria-labelledby="headingTwoRuido"
+                                                            data-bs-parent="#accordionRuido">
+                                                            <div class="accordion-body">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingThreeRuido">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#collapseThreeRuido"
+                                                                aria-expanded="false"
+                                                                aria-controls="collapseThreeRuido">
+                                                                Poisson
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseThreeRuido" class="accordion-collapse collapse"
+                                                            aria-labelledby="headingThreeRuido"
+                                                            data-bs-parent="#accordionRuido">
+                                                            <div class="accordion-body">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
+
+
+
+
                                             </div>
                                         </div>
                                         <div class="accordion-item">
