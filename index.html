@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenCV with JS</title>
     <link rel="stylesheet" href="./css/style.css">
-    <script src="libs/opencv340.js"></script>
-    <script async src="script.js" onload="onOpenCvReady();" type="text/javascript"></script>
+
 
     <!-- Bootstrap css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -48,7 +47,7 @@
         <!-- Header -->
         <header class="header">
             <nav class="navbar navbar-expand-lg navbar-dark bg-transparent pt-4">
-                <div class="container-fluid container">
+                <div class="container">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -84,244 +83,318 @@
             </nav>
         </header>
 
-        <!-- Body with image and commands -->
+        <!-- Body -->
         <div class="container">
+
+            <!-- Images line -->
             <div class="row">
 
                 <!-- Image column -->
                 <div class="col align-items-center">
-                    <div class="container container01">
+                    <div class="container">
                         <!-- <img src="./images/lena_color.jpg" class="img-fluid" alt="Lena"> -->
-                        <img class="img-fluid" id="imageSrc" />
+
+                        <!-- Image display -->
+                        <div class="container">
+                            <img class="img-fluid" id="imageSrc" />
+                        </div>
+
+                        <!-- Histogram display -->
+                        <div class="container">
+                            <canvas id="canvasHist"></canvas>
+                        </div>
+
+                        <!-- Image information -->
                         <div class="container text-center">
-                            <button type="button" class="btn btn-light">
-                                <i class="bi bi-arrow-90deg-up text-dark"></i>
-                                Usar como base</button>
-                            <button type="button" class="btn btn-light">
-                                <i class="bi bi-download text-dark"></i>
-                                Download</button>
+
                         </div>
 
                     </div>
                 </div>
 
 
-                <!-- Tab select  -->
+                <!-- New image column -->
                 <div class="col align-items-center">
-                    <div class="container container01">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                    data-bs-target="#home" type="button" role="tab" aria-controls="home"
-                                    aria-selected="true">Selecionar imagem</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                                    type="button" role="tab" aria-controls="profile"
-                                    aria-selected="false">Efeitos</button>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-
-                            <!-- Select image -->
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <div class="inputoutput">
-
-                                    <div class="container">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <figure class="figure">
-                                                    <img id="sample-image1" src="./images/bright_cat.jpg"
-                                                        class="figure-img img-fluid rounded" alt="...">
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col">
-                                                <figure class="figure">
-                                                    <img id="sample-image2" src="./images/butterfly_gray.jpg"
-                                                        class="figure-img img-fluid rounded" alt="...">
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col">
-                                                <figure class="figure">
-                                                    <img id="sample-image3" src="./images/head.jpg"
-                                                        class="figure-img img-fluid rounded" alt="...">
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <figure class="figure">
-                                                    <img id="sample-image4" src="./images/lena_color.jpg"
-                                                        class="figure-img img-fluid rounded" alt="...">
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col">
-                                                <figure class="figure">
-                                                    <img id="sample-image5" src="./images/retina.jpg"
-                                                        class="figure-img img-fluid rounded" alt="...">
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col">
-                                                <figure class="figure">
-                                                    <img id="sample-image6" src="./images/sunflowers.jpg"
-                                                        class="figure-img img-fluid rounded" alt="...">
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="text-center">OR</p>
-                                <!-- <img id="imageSrc" alt="No Image" /> -->
-                                <div class="caption text-center"><input type="file" name="file" id="fileInput" /></div>
-                            </div>
-
-                            <!-- Accordion -->
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <div class="accordion" id="accordionExample">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingOne">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseOne" aria-expanded="true"
-                                                aria-controls="collapseOne">
-                                                Ruído
-                                            </button>
-                                        </h2>
-                                        <div id="collapseOne" class="accordion-collapse collapse show"
-                                            aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <!-- <div class="row text-dark">
-                                                    Ruido 1
-                                                </div> -->
-
-
-                                                <div class="accordion" id="accordionRuido">
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingOneRuido">
-                                                            <button class="accordion-button" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#collapseOneRuido" aria-expanded="true"
-                                                                aria-controls="collapseOneRuido">
-                                                                Salt and pepper
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseOneRuido"
-                                                            class="accordion-collapse collapse show"
-                                                            aria-labelledby="headingOneRuido"
-                                                            data-bs-parent="#accordionRuido">
-                                                            <div class="accordion-body">
-
-                                                                <form>
-                                                                    <div class="mb-3">
-                                                                        <label for="probabilidade"
-                                                                            class="form-label">Probabilidade</label>
-                                                                        <input type="probabilidade" class="form-control">
-                                                                        <div class="form-text">O valor da
-                                                                            probabilidade. Caso o número aleatório seja
-                                                                            menor que ele, o pixel vai ser substituído
-                                                                            pela cor preta. Caso seja maior que (1 -
-                                                                            prob), será da cor branca.
-                                                                            Ex: 0.05</div>
-                                                                    </div>
-
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary">Aplicar</button>
-                                                                </form>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingTwoRuido">
-                                                            <button class="accordion-button collapsed" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#collapseTwoRuido" aria-expanded="false"
-                                                                aria-controls="collapseTwoRuido">
-                                                                Gaussiano
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseTwoRuido" class="accordion-collapse collapse"
-                                                            aria-labelledby="headingTwoRuido"
-                                                            data-bs-parent="#accordionRuido">
-                                                            <div class="accordion-body">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingThreeRuido">
-                                                            <button class="accordion-button collapsed" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#collapseThreeRuido"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapseThreeRuido">
-                                                                Poisson
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseThreeRuido" class="accordion-collapse collapse"
-                                                            aria-labelledby="headingThreeRuido"
-                                                            data-bs-parent="#accordionRuido">
-                                                            <div class="accordion-body">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-
-
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingTwo">
-                                                <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                                    aria-expanded="false" aria-controls="collapseTwo">
-                                                    Histograma
-                                                </button>
-                                            </h2>
-                                            <div id="collapseTwo" class="accordion-collapse collapse"
-                                                aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingThree">
-                                                <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                                                    aria-expanded="false" aria-controls="collapseThree">
-                                                    Filtros
-                                                </button>
-                                            </h2>
-                                            <div id="collapseThree" class="accordion-collapse collapse"
-                                                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                    ...</div>
-                            </div>
-
-
-
-                        </div>
+                    <div class="container">
+                        <canvas id="canvasOutput"></canvas>
                     </div>
-
                 </div>
+            </div>
 
+            <!-- Buttons line -->
+            <div class="row">
+                <div class="col align-items-center">
+
+                    <!-- Buttons -->
+                    <div class="container text-center">
+
+                        <!-- <button type="button" class="btn btn-light">
+                            <i class="bi bi-download text-dark"></i>
+                            Download</button> -->
+
+                        <!-- Select image button -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#selectImageModal">
+                            Selecionar imagem
+                        </button>
+
+                        <!-- Modal select image -->
+                        <div class="modal fade" id="selectImageModal" tabindex="-1"
+                            aria-labelledby="selectImageModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="selectImageModalLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <!-- Images to select -->
+                                        <div class="inputoutput">
+                                            <div class="container">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <figure class="figure">
+                                                            <img id="sample-image1" src="./images/bright_cat.jpg"
+                                                                class="figure-img img-fluid rounded" alt="bright_cat"
+                                                                data-bs-dismiss="modal">
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="col">
+                                                        <figure class="figure">
+                                                            <img id="sample-image2" src="./images/butterfly_gray.jpg"
+                                                                class="figure-img img-fluid rounded"
+                                                                alt="butterfly_gray" data-bs-dismiss="modal">
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="col">
+                                                        <figure class="figure">
+                                                            <img id="sample-image3" src="./images/head.jpg"
+                                                                class="figure-img img-fluid rounded" alt="head"
+                                                                data-bs-dismiss="modal">
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                </div>
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <figure class="figure">
+                                                            <img id="sample-image4" src="./images/lena_color.jpg"
+                                                                class="figure-img img-fluid rounded" alt="lena_color"
+                                                                data-bs-dismiss="modal">
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="col">
+                                                        <figure class="figure">
+                                                            <img id="sample-image5" src="./images/retina.jpg"
+                                                                class="figure-img img-fluid rounded" alt="retina"
+                                                                data-bs-dismiss="modal">
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="col">
+                                                        <figure class="figure">
+                                                            <img id="sample-image6" src="./images/sunflowers.jpg"
+                                                                class="figure-img img-fluid rounded" alt="sunflowers"
+                                                                data-bs-dismiss="modal">
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="text-center">OR</p>
+                                        <!-- <img id="imageSrc" alt="No Image" /> -->
+                                        <div class="caption text-center">
+                                            <input type="file" name="file" id="fileInput" data-bs-dismiss="modal" />
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Apply effects button -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#EffectsModal">
+                            Aplicar efeitos
+                        </button>
+
+                        <!-- Modal effects -->
+                        <div class="modal fade" id="EffectsModal" tabindex="-1" aria-labelledby="EffectsModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="EffectsModalLabel">Aplicar efeitos</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <!-- Accordion -->
+                                        <div class="accordion" id="accordionEffects">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingOne">
+                                                    <button class="accordion-button" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                        aria-expanded="true" aria-controls="collapseOne">
+                                                        Ruído
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                                    aria-labelledby="headingOne" data-bs-parent="#accordionEffects">
+                                                    <div class="accordion-body">
+
+
+
+                                                        <div class="accordion" id="accordionRuido">
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="headingOneRuido">
+                                                                    <button class="accordion-button" type="button"
+                                                                        data-bs-toggle="collapse"
+                                                                        data-bs-target="#collapseOneRuido"
+                                                                        aria-expanded="true"
+                                                                        aria-controls="collapseOneRuido">
+                                                                        Salt and pepper
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="collapseOneRuido"
+                                                                    class="accordion-collapse collapse show"
+                                                                    aria-labelledby="headingOneRuido"
+                                                                    data-bs-parent="#accordionRuido">
+                                                                    <div class="accordion-body">
+
+                                                                        <form>
+                                                                            <div class="mb-3">
+                                                                                <label for="probabilidade"
+                                                                                    class="form-label">Probabilidade</label>
+                                                                                <input type="probabilidade"
+                                                                                    class="form-control">
+                                                                                <div class="form-text">O valor da
+                                                                                    probabilidade. Caso o número
+                                                                                    aleatório
+                                                                                    seja
+                                                                                    menor que ele, o pixel vai ser
+                                                                                    substituído
+                                                                                    pela cor preta. Caso seja maior
+                                                                                    que (1 -
+                                                                                    prob), será da cor branca.
+                                                                                    Ex: 0.05</div>
+                                                                            </div>
+
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Aplicar</button>
+                                                                        </form>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="headingTwoRuido">
+                                                                    <button class="accordion-button collapsed"
+                                                                        type="button" data-bs-toggle="collapse"
+                                                                        data-bs-target="#collapseTwoRuido"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="collapseTwoRuido">
+                                                                        Gaussiano
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="collapseTwoRuido"
+                                                                    class="accordion-collapse collapse"
+                                                                    aria-labelledby="headingTwoRuido"
+                                                                    data-bs-parent="#accordionRuido">
+                                                                    <div class="accordion-body">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="headingThreeRuido">
+                                                                    <button class="accordion-button collapsed"
+                                                                        type="button" data-bs-toggle="collapse"
+                                                                        data-bs-target="#collapseThreeRuido"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="collapseThreeRuido">
+                                                                        Poisson
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="collapseThreeRuido"
+                                                                    class="accordion-collapse collapse"
+                                                                    aria-labelledby="headingThreeRuido"
+                                                                    data-bs-parent="#accordionRuido">
+                                                                    <div class="accordion-body">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingTwo">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                            aria-expanded="false" aria-controls="collapseTwo">
+                                                            Histograma
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                                        aria-labelledby="headingTwo" data-bs-parent="#accordionEffects">
+                                                        <div class="accordion-body">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingThree">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                                            aria-expanded="false" aria-controls="collapseThree">
+                                                            Filtros
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                                        aria-labelledby="headingThree"
+                                                        data-bs-parent="#accordionEffects">
+                                                        <div class="accordion-body">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="contact" role="tabpanel"
+                                            aria-labelledby="contact-tab">
+                                            ...</div>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -338,6 +411,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"></script>
+
+        <!-- Other scripts -->
+        <script src="libs/opencv340.js"></script>
+        <script src="script.js" type="text/javascript"></script>
 </body>
 
 </html>

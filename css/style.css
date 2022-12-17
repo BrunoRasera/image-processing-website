@@ -9,12 +9,18 @@
 }
 
 .container {
+  border: solid;
   padding: 10px;
 }
 
-.container01 {
+.container-fluid {
   border: solid;
-  border-radius: 2%;
+  border-color: blue;
+  padding: 10px;
+}
+
+#canvasOutput {
+  max-width: 400px;
 }
 
 #sample-image {
@@ -22,11 +28,7 @@
 }
 
 #imageSrc {
-  max-width: 600px;
-  background: url("/images/placeholder.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  max-width: 400px;
 }
 
 /*# sourceMappingURL=style.css.map */
