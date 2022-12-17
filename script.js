@@ -1,6 +1,5 @@
 
-
-// const cv = require("./libs/opencv460");
+// const cv = require("./libs/opencv340");
 
 // const canvas = document.getElementById("canvas-output");
 
@@ -21,11 +20,12 @@
 //     frameFiltered.delete();
 // }
 
-function showHistogram(mat){
+function showHistogram(canvasName, src){
     
+    // let src = image.clone();
     let srcVec = new cv.MatVector();
-    cv.cvtColor(mat, mat, cv.COLOR_RGBA2GRAY, 0);
-    srcVec.push_back(mat);
+    cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
+    srcVec.push_back(src);
     let accumulate = false;
     let channels = [0];
     let histSize = [256];
@@ -39,17 +39,18 @@ function showHistogram(mat){
     cv.calcHist(srcVec, channels, mask, hist, histSize, ranges, accumulate);
     let result = cv.minMaxLoc(hist, mask);
     let max = result.maxVal;
-    let dst = new cv.Mat.zeros(mat.rows, histSize[0] * scale, cv.CV_8UC3);
+    let dst = new cv.Mat.zeros(src.rows, histSize[0] * scale, cv.CV_8UC3);
 
     // draw histogram
     for (let i = 0; i < histSize[0]; i++) {
-        let binVal = hist.data32F[i] * mat.rows / max;
-        let point1 = new cv.Point(i * scale, mat.rows - 1);
-        let point2 = new cv.Point((i + 1) * scale - 1, mat.rows - binVal);
+        let binVal = hist.data32F[i] * src.rows / max;
+        let point1 = new cv.Point(i * scale, src.rows - 1);
+        let point2 = new cv.Point((i + 1) * scale - 1, src.rows - binVal);
         cv.rectangle(dst, point1, point2, color, cv.FILLED);
     }
-    cv.imshow('canvasHist', dst);
-    src.delete(); imgHist.delete(); srcVec.delete(); mask.delete(); hist.delete();
+    cv.imshow(canvasName, dst);
+    // src.delete(); 
+    // imgHist.delete(); srcVec.delete(); mask.delete(); hist.delete();
 }
 
 
@@ -65,58 +66,93 @@ let inputSample6 = document.getElementById('sample-image6');
 
 inputElement.addEventListener('change', (e) => {
     imgElement.src = URL.createObjectURL(e.target.files[0]);
-    let mat = cv.imread(imgElement);
-    cv.imshow('canvasOutput', mat);
-    showHistogram(mat);
-    mat.delete();
+    let image = cv.imread(imgElement);
+    showHistogram('canvasHist',image);
+
+    let newImage = cv.imread(imgElement);
+    showHistogram('canvasHist2',newImage);
+    cv.imshow('canvasOutput', newImage);
+
+    image.delete();
+    newImage.delete();
 });
 
 inputSample1.addEventListener('click', () => {
     imgElement.src = '/images/bright_cat.jpg';
-    let mat = cv.imread(imgElement);
-    cv.imshow('canvasOutput', mat);
-    showHistogram(mat);
-    mat.delete();
+    let image = cv.imread(imgElement);
+    showHistogram('canvasHist',image);
+
+    let newImage = cv.imread(imgElement);
+    showHistogram('canvasHist2',newImage);
+    cv.imshow('canvasOutput', newImage);
+
+    image.delete();
+    newImage.delete();
 });
 
 inputSample2.addEventListener('click', () => {
     imgElement.src = '/images/butterfly_gray.jpg';
-    let mat = cv.imread(imgElement);
-    cv.imshow('canvasOutput', mat);
-    showHistogram(mat);
-    mat.delete();
+    let image = cv.imread(imgElement);
+    showHistogram('canvasHist',image);
+
+    let newImage = cv.imread(imgElement);
+    showHistogram('canvasHist2',newImage);
+    cv.imshow('canvasOutput', newImage);
+
+    image.delete();
+    newImage.delete();
 });
 
 inputSample3.addEventListener('click', () => {
     imgElement.src = '/images/head.jpg';
-    let mat = cv.imread(imgElement);
-    cv.imshow('canvasOutput', mat);
-    showHistogram(mat);
-    mat.delete();
+    let image = cv.imread(imgElement);
+    showHistogram('canvasHist',image);
+
+    let newImage = cv.imread(imgElement);
+    showHistogram('canvasHist2',newImage);
+    cv.imshow('canvasOutput', newImage);
+
+    image.delete();
+    newImage.delete();
 });
 
 inputSample4.addEventListener('click', () => {
     imgElement.src = '/images/lena_color.jpg';
-    let mat = cv.imread(imgElement);
-    cv.imshow('canvasOutput', mat);
-    showHistogram(mat);
-    mat.delete();
+    let image = cv.imread(imgElement);
+    showHistogram('canvasHist',image);
+
+    let newImage = cv.imread(imgElement);
+    showHistogram('canvasHist2',newImage);
+    cv.imshow('canvasOutput', newImage);
+
+    image.delete();
+    newImage.delete();
 });
 
 inputSample5.addEventListener('click', () => {
     imgElement.src = '/images/retina.jpg';
-    let mat = cv.imread(imgElement);
-    cv.imshow('canvasOutput', mat);
-    showHistogram(mat);
-    mat.delete();
+    let image = cv.imread(imgElement);
+    showHistogram('canvasHist',image);
+
+    let newImage = cv.imread(imgElement);
+    showHistogram('canvasHist2',newImage);
+    cv.imshow('canvasOutput', newImage);
+
+    image.delete();
+    newImage.delete();
 });
 
 inputSample6.addEventListener('click', () => {
     imgElement.src = '/images/sunflowers.jpg';
-    let mat = cv.imread(imgElement);
-    cv.imshow('canvasOutput', mat);
-    showHistogram(mat);
-    mat.delete();
+    let image = cv.imread(imgElement);
+    showHistogram('canvasHist',image);
+
+    let newImage = cv.imread(imgElement);
+    showHistogram('canvasHist2',newImage);
+    cv.imshow('canvasOutput', newImage);
+
+    image.delete();
+    newImage.delete();
 });
 
 
