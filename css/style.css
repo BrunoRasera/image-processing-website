@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;514&amp;display=swap");
+* {
+  background-color: gray;
+}
+
 .header {
   font-size: 30px;
   font-weight: bold;
@@ -19,20 +23,32 @@
   padding: 10px;
 }
 
-#canvasOutput {
-  max-width: 400px;
+.container-centered {
+  text-align: center;
 }
 
-#sample-image {
-  background: url("/images/placeholder.jpg") no-repeat scroll 0 0;
+#canvasOutput {
+  width: 500px;
 }
 
 #imageSrc {
-  max-width: 400px;
+  width: 500px;
+}
+
+#canvasHist {
+  width: 500px;
+  height: 300px;
+  border: solid;
+  border-width: 5px;
+  border-color: black;
 }
 
 #canvasHist2 {
-  max-width: 400px;
+  width: 500px;
+  height: 300px;
+  border: solid;
+  border-width: 5px;
+  border-color: black;
 }
 
 /*# sourceMappingURL=style.css.map */
