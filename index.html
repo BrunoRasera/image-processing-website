@@ -278,13 +278,12 @@
                                                                     data-bs-parent="#accordionRuido">
                                                                     <div class="accordion-body">
 
-                                                                        <form>
                                                                             <div class="mb-3">
-                                                                                <label for="probabilidade"
-                                                                                    class="form-label">Probabilidade</label>
-                                                                                <input type="probabilidade"
-                                                                                    class="form-control">
-                                                                                <div class="form-text">O valor da
+                                                                                <label for="salt-pepper-prob">Probabilidade</label>
+                                                                                <input type="number"
+                                                                                    name="salt-pepper-prob" id="salt-pepper-prob">
+                                                                                <div>
+                                                                                    O valor da
                                                                                     probabilidade. Caso o número
                                                                                     aleatório
                                                                                     seja
@@ -293,12 +292,13 @@
                                                                                     pela cor preta. Caso seja maior
                                                                                     que (1 -
                                                                                     prob), será da cor branca.
-                                                                                    Ex: 0.05</div>
+                                                                                    Ex: 0.05
+                                                                                </div>
                                                                             </div>
 
                                                                             <button type="submit"
-                                                                                class="btn btn-primary">Aplicar</button>
-                                                                        </form>
+                                                                                class="btn btn-primary" data-bs-dismiss="modal" id="btn-salt-pepper">Aplicar</button>
+                                                                        
 
                                                                     </div>
                                                                 </div>
@@ -354,12 +354,16 @@
                                                         <button class="accordion-button collapsed" type="button"
                                                             data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                                             aria-expanded="false" aria-controls="collapseTwo">
-                                                            Histograma
+                                                            Thresholding 
                                                         </button>
                                                     </h2>
                                                     <div id="collapseTwo" class="accordion-collapse collapse"
                                                         aria-labelledby="headingTwo" data-bs-parent="#accordionEffects">
                                                         <div class="accordion-body">
+
+
+                                                            
+
 
                                                         </div>
                                                     </div>
@@ -397,6 +401,9 @@
                             </div>
                         </div>
 
+                        <button type="button" class="btn btn-primary" id="btn-teste">
+                            Teste
+                        </button>
                     </div>
                 </div>
             </div>

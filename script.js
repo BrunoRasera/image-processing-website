@@ -23,8 +23,14 @@
 function showHistogram(canvasName, src){
     
     // let src = image.clone();
+    console.log(`entrou com canvas ${canvasName}`);
     let srcVec = new cv.MatVector();
-    cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
+    try {
+        cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
+    } catch (error) {
+        console.log(error)
+    }
+    
     srcVec.push_back(src);
     let accumulate = false;
     let channels = [0];
@@ -48,12 +54,13 @@ function showHistogram(canvasName, src){
         let point2 = new cv.Point((i + 1) * scale - 1, src.rows - binVal);
         cv.rectangle(dst, point1, point2, color, cv.FILLED);
     }
+    console.log(canvasName);
     cv.imshow(canvasName, dst);
     // src.delete(); 
     // imgHist.delete(); srcVec.delete(); mask.delete(); hist.delete();
 }
 
-
+let btnTest = document.getElementById('btn-teste');
 let imgElement = document.getElementById('imageSrc');
 let inputElement = document.getElementById('fileInput');
 let inputSample1 = document.getElementById('sample-image1');
@@ -82,12 +89,7 @@ inputSample1.addEventListener('click', () => {
     let image = cv.imread(imgElement);
     showHistogram('canvasHist',image);
 
-    let newImage = cv.imread(imgElement);
-    showHistogram('canvasHist2',newImage);
-    cv.imshow('canvasOutput', newImage);
-
     image.delete();
-    newImage.delete();
 });
 
 inputSample2.addEventListener('click', () => {
@@ -95,13 +97,19 @@ inputSample2.addEventListener('click', () => {
     let image = cv.imread(imgElement);
     showHistogram('canvasHist',image);
 
-    let newImage = cv.imread(imgElement);
-    showHistogram('canvasHist2',newImage);
-    cv.imshow('canvasOutput', newImage);
-
     image.delete();
-    newImage.delete();
 });
+
+document.getElementById('btn-salt-pepper').addEventListener('click', () => {
+    let newImage = cv.imread(imgElement);
+    thres = Number(document.getElementById('salt-pepper-prob').value);
+    console.log(thres);
+    cv.threshold(newImage, newImage, thres, 200, cv.THRESH_BINARY);
+    cv.imshow('canvasOutput', newImage);
+    showHistogram('canvasHist2',newImage);
+
+    newImage.delete();
+})
 
 inputSample3.addEventListener('click', () => {
     imgElement.src = '/images/head.jpg';
