@@ -23,7 +23,6 @@
 function showHistogram(canvasName, image) {
 
     let src = image.clone();
-    console.log(`entrou com canvas ${canvasName}`);
     let srcVec = new cv.MatVector();
     try {
         cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
@@ -35,7 +34,7 @@ function showHistogram(canvasName, image) {
     let accumulate = false;
     let channels = [0];
     let histSize = [256];
-    let ranges = [0, 255];
+    let ranges = [0, 256];
     let hist = new cv.Mat();
     let mask = new cv.Mat();
     let color = new cv.Scalar(250, 250, 250);
@@ -52,9 +51,8 @@ function showHistogram(canvasName, image) {
         let binVal = hist.data32F[i] * src.rows / max;
         let point1 = new cv.Point(i * scale, src.rows - 1);
         let point2 = new cv.Point((i + 1) * scale - 1, src.rows - binVal);
-        cv.rectangle(dst, point1, point2, color, 1);
+        cv.rectangle(dst, point1, point2, color, cv.FILLED);
     }
-    console.log(canvasName);
     cv.imshow(canvasName, dst);
 
     src.delete();
@@ -150,14 +148,137 @@ inputSample6.addEventListener('click', () => {
 });
 
 
-document.getElementById('btn-salt-pepper').addEventListener('click', () => {
+// THRESHOLD
+
+// Binary
+document.getElementById('btn-threshold-binary').addEventListener('click', () => {
     let newImage = cv.imread(imgElement);
-    thres = Number(document.getElementById('salt-pepper-prob').value);
-    cv.threshold(newImage, newImage, thres, 200, cv.THRESH_BINARY);
+    thres = Number(document.getElementById('threshold-value').value);
+    cv.threshold(newImage, newImage, thres, 255, cv.THRESH_BINARY);
     cv.imshow('canvasOutput', newImage);
     showHistogram('canvasHist2', newImage);
 
     newImage.delete();
+})
+
+// Otsu
+document.getElementById('btn-threshold-otsu').addEventListener('click', () => {
+    let newImage = cv.imread(imgElement);
+    thres = 0;
+    cv.cvtColor(newImage, newImage, cv.COLOR_RGBA2GRAY, 0);
+    cv.threshold(newImage, newImage, thres, 255, cv.THRESH_OTSU);
+    cv.imshow('canvasOutput', newImage);
+    showHistogram('canvasHist2', newImage);
+
+    newImage.delete();
+})
+
+// Adaptive Thresholding 
+document.getElementById('btn-threshold-adaptative').addEventListener('click', () => {
+    let newImage = cv.imread(imgElement);
+    cv.cvtColor(newImage, newImage, cv.COLOR_RGBA2GRAY, 0);
+    cv.adaptiveThreshold(newImage, newImage, 200, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 3, 2);
+    cv.imshow('canvasOutput', newImage);
+    showHistogram('canvasHist2', newImage);
+
+    newImage.delete();
+})
+
+
+// Canny
+document.getElementById('btn-canny').addEventListener('click', () => {
+    let newImage = cv.imread(imgElement);
+    thres1 = Number(document.getElementById('canny-threshold1-value').value);
+    thres2 = Number(document.getElementById('canny-threshold2-value').value);
+    cv.cvtColor(newImage, newImage, cv.COLOR_RGBA2GRAY, 0);
+    cv.Canny(newImage, newImage, thres1, thres2, 3, false);
+    cv.imshow('canvasOutput', newImage);
+    showHistogram('canvasHist2', newImage);
+
+    newImage.delete();
+})
+
+
+// Equalize histogram
+document.getElementById('btn-eq-hist').addEventListener('click', () => {
+    let newImage = cv.imread(imgElement);
+    cv.cvtColor(newImage, newImage, cv.COLOR_RGBA2GRAY, 0);
+    cv.equalizeHist(newImage, newImage);
+    cv.imshow('canvasOutput', newImage);
+    showHistogram('canvasHist2', newImage);
+
+    newImage.delete();
+})
+
+
+// Fourier Transform
+document.getElementById('btn-fourier').addEventListener('click', () => {
+    let src = cv.imread(imgElement);
+    cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
+
+    // get optimal size of DFT
+    let optimalRows = cv.getOptimalDFTSize(src.rows);
+    let optimalCols = cv.getOptimalDFTSize(src.cols);
+    let s0 = cv.Scalar.all(0);
+    let padded = new cv.Mat();
+    cv.copyMakeBorder(src, padded, 0, optimalRows - src.rows, 0,
+        optimalCols - src.cols, cv.BORDER_CONSTANT, s0);
+
+    // use cv.MatVector to distribute space for real part and imaginary part
+    let plane0 = new cv.Mat();
+    padded.convertTo(plane0, cv.CV_32F);
+    let planes = new cv.MatVector();
+    let complexI = new cv.Mat();
+    let plane1 = new cv.Mat.zeros(padded.rows, padded.cols, cv.CV_32F);
+    planes.push_back(plane0);
+    planes.push_back(plane1);
+    cv.merge(planes, complexI);
+
+    // in-place dft transform
+    cv.dft(complexI, complexI);
+
+    // compute log(1 + sqrt(Re(DFT(img))**2 + Im(DFT(img))**2))
+    cv.split(complexI, planes);
+    cv.magnitude(planes.get(0), planes.get(1), planes.get(0));
+    let mag = planes.get(0);
+    let m1 = new cv.Mat.ones(mag.rows, mag.cols, mag.type());
+    cv.add(mag, m1, mag);
+    cv.log(mag, mag);
+
+    // crop the spectrum, if it has an odd number of rows or columns
+    let rect = new cv.Rect(0, 0, mag.cols & -2, mag.rows & -2);
+    mag = mag.roi(rect);
+
+    // rearrange the quadrants of Fourier image
+    // so that the origin is at the image center
+    let cx = mag.cols / 2;
+    let cy = mag.rows / 2;
+    let tmp = new cv.Mat();
+
+    let rect0 = new cv.Rect(0, 0, cx, cy);
+    let rect1 = new cv.Rect(cx, 0, cx, cy);
+    let rect2 = new cv.Rect(0, cy, cx, cy);
+    let rect3 = new cv.Rect(cx, cy, cx, cy);
+
+    let q0 = mag.roi(rect0);
+    let q1 = mag.roi(rect1);
+    let q2 = mag.roi(rect2);
+    let q3 = mag.roi(rect3);
+
+    // exchange 1 and 4 quadrants
+    q0.copyTo(tmp);
+    q3.copyTo(q0);
+    tmp.copyTo(q3);
+
+    // exchange 2 and 3 quadrants
+    q1.copyTo(tmp);
+    q2.copyTo(q1);
+    tmp.copyTo(q2);
+
+    // The pixel value of cv.CV_32S type image ranges from 0 to 1.
+    cv.normalize(mag, mag, 0, 1, cv.NORM_MINMAX);
+    cv.imshow('canvasOutput', mag);
+    src.delete(); padded.delete(); planes.delete(); complexI.delete(); m1.delete(); tmp.delete();
 })
 
 // imgElement.onload = function () {

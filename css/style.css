@@ -1,8 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;514&amp;display=swap");
-* {
-  background-color: gray;
-}
-
 .header {
   font-size: 30px;
   font-weight: bold;
