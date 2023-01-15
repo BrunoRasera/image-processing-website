@@ -59,6 +59,12 @@ function showHistogram(canvasName, image) {
     srcVec.delete(); mask.delete(); hist.delete();
 }
 
+function blankHistogramOnSecondCanvas() {
+    let dst = new cv.Mat.zeros(20, 20, cv.CV_8UC3);
+    cv.imshow('canvasHist2', dst);
+    dst.delete();
+}
+
 
 let btnTest = document.getElementById('btn-teste');
 let imgElement = document.getElementById('imageSrc');
@@ -160,7 +166,7 @@ document.getElementById('btn-threshold-binary').addEventListener('click', () => 
     showHistogram('canvasHist2', newImage);
 
     newImage.delete();
-})
+});
 
 // Otsu
 document.getElementById('btn-threshold-otsu').addEventListener('click', () => {
@@ -172,7 +178,7 @@ document.getElementById('btn-threshold-otsu').addEventListener('click', () => {
     showHistogram('canvasHist2', newImage);
 
     newImage.delete();
-})
+});
 
 // Adaptive Thresholding 
 document.getElementById('btn-threshold-adaptative').addEventListener('click', () => {
@@ -183,7 +189,7 @@ document.getElementById('btn-threshold-adaptative').addEventListener('click', ()
     showHistogram('canvasHist2', newImage);
 
     newImage.delete();
-})
+});
 
 
 // Canny
@@ -197,7 +203,7 @@ document.getElementById('btn-canny').addEventListener('click', () => {
     showHistogram('canvasHist2', newImage);
 
     newImage.delete();
-})
+});
 
 
 // Equalize histogram
@@ -209,7 +215,7 @@ document.getElementById('btn-eq-hist').addEventListener('click', () => {
     showHistogram('canvasHist2', newImage);
 
     newImage.delete();
-})
+});
 
 
 // Fourier Transform
@@ -278,12 +284,13 @@ document.getElementById('btn-fourier').addEventListener('click', () => {
 
     // The pixel value of cv.CV_32S type image ranges from 0 to 1.
     cv.normalize(mag, mag, 0, 1, cv.NORM_MINMAX);
-    cv.imshow('canvasOutput', mag);
+    cv.imshow('canvasOutput', mag)
+    blankHistogramOnSecondCanvas();
 
     src.delete(); padded.delete(); planes.delete(); complexI.delete(); m1.delete(); tmp.delete();
-})
+});
 
-// ESegmentation
+// Segmentation
 document.getElementById('btn-segmentation').addEventListener('click', () => {
     let src = cv.imread(imgElement);
     let dst = new cv.Mat();
@@ -332,11 +339,262 @@ document.getElementById('btn-segmentation').addEventListener('click', () => {
         }
     }
     cv.imshow('canvasOutput', src);
+    blankHistogramOnSecondCanvas();
+
     src.delete(); dst.delete(); gray.delete(); opening.delete(); coinsBg.delete();
     coinsFg.delete(); distTrans.delete(); unknown.delete(); markers.delete(); M.delete();
-})
+});
 
 
+// NOISE
+
+// Poisson
+
+
+// document.getElementById('btn-ruido-poisson').addEventListener('click', () => {
+//     let image = cv.imread(imgElement);
+//     // Convert image from cv.Mat format to JavaScript array
+//     let imageData = image.getDataAsArray();
+
+//     //thres1 = Number(document.getElementById('PoissonRangeValue').value);
+
+//     for (let x = 0; x < imageData.length; x++) {
+//       for (let y = 0; y < imageData[x].length; y++) {
+//         let poisson = Math.round(Math.random() * imageData[x][y]);
+//         // apply thresholding
+//         if (poisson < 1) poisson = 1;
+//         if (poisson > 254) poisson = 254;
+
+//         imageData[x][y] = poisson;
+//       }
+//     }
+//     // Convert the modified image data back to a cv.Mat
+//     let newImage = new cv.Mat(imageData, cv.CV_8UC3);
+
+//     cv.imshow("canvasOutput", newImage);
+// });
+
+
+// // poisson working 
+// document.getElementById('btn-ruido-poisson').addEventListener('click', () => {
+//     let image = cv.imread(imgElement);
+
+//     let height = image.rows;
+//     let width = image.cols;
+
+//     let channels = image.channels();
+//     let pixel_pos;
+//     console.log(channels);
+
+//     for (let row = 0; row < height; row++) {
+//         for (let col = 0; col < width; col++) {
+//             pixel_pos = (row * width + col) * channels;
+//             let blue = image.data[pixel_pos];
+//             let green = image.data[pixel_pos + 1];
+//             let red = image.data[pixel_pos + 2];
+
+//             // change the value of the pixel
+//             let poissonBlue = Math.round(Math.random() * blue);
+//             // apply thresholding
+//             if (poissonBlue < 1) poissonBlue = 1;
+//             if (poissonBlue > 254) poissonBlue = 254;
+
+//             let poissonGreen = Math.round(Math.random() * green);
+//             // apply thresholding
+//             if (poissonGreen < 1) poissonGreen = 1;
+//             if (poissonGreen > 254) poissonGreen = 254;
+
+//             let poissonRed = Math.round(Math.random() * red);
+//             // apply thresholding
+//             if (poissonRed < 1) poissonRed = 1;
+//             if (poissonRed > 254) poissonRed = 254;
+
+//             image.data[pixel_pos] = poissonBlue;
+//             image.data[pixel_pos + 1] = poissonGreen;
+//             image.data[pixel_pos + 2] = poissonRed;
+//         }
+//     }
+
+//     cv.imshow("canvasOutput", image);
+//     image.delete();
+// });
+
+// Salt and pepper
+let rangeInputSaltPepper = document.getElementById("saltPepperRange");
+let rangeValueSaltPepper = document.getElementById("saltPepperRangeValue");
+
+rangeInputSaltPepper.addEventListener("input", function () {
+    rangeValueSaltPepper.textContent = this.value;
+});
+
+document.getElementById('btn-ruido-saltpepper').addEventListener('click', () => {
+    let image = cv.imread(imgElement);
+    cv.cvtColor(image, image, cv.COLOR_RGBA2GRAY, 0);
+
+    let prob = Number(document.getElementById('saltPepperRange').value);
+
+    let salt = 1 - prob
+    let pepper = prob
+
+    let newImage = new cv.Mat(image.rows, image.cols, cv.CV_8UC1);
+    for (let x = 0; x < image.rows; x++) {
+        for (let y = 0; y < image.cols; y++) {
+            let rand = Math.random();
+            if (rand > salt) {
+                newImage.ucharPtr(x, y)[0] = 255;
+            } else if (rand < pepper) {
+                newImage.ucharPtr(x, y)[0] = 0;
+            } else {
+                newImage.ucharPtr(x, y)[0] = image.ucharPtr(x, y)[0];
+            }
+        }
+    }
+
+    cv.imshow("canvasOutput", newImage);
+    showHistogram('canvasHist2', newImage);
+    image.delete();
+    newImage.delete();
+});
+
+// Gaussian
+// let rangeInputGaussian = document.getElementById("gaussianRange");
+// let rangeValueGaussian = document.getElementById("gaussianRangeValue");
+
+// rangeInputGaussian.addEventListener("input", function () {
+//     rangeValueGaussian.textContent = this.value;
+// });
+
+// document.getElementById('btn-ruido-gaussian').addEventListener('click', () => {
+//     let image = cv.imread(imgElement);
+//     cv.cvtColor(image, image, cv.COLOR_RGBA2GRAY, 0);
+
+//     let sigma = Number(document.getElementById('gaussianRange').value);
+
+//     let height = image.rows;
+//     let width = image.cols;
+
+//     // for (let row = 0; row < height; row++) {
+//     //     for (let col = 0; col < width; col++) {
+//     //         // let pixelValue = image.data[row * width + col];
+//     //         // image.data[row * width + col] = Math.max(0, Math.min(255, pixelValue + noise));
+
+//     //     }
+//     // }
+//     let noise = cv.randn(new cv.Mat(image.rows, image.cols, cv.CV_8UC1), cv.CV_8UC1, 0);
+
+//     let imageWithNoise = image.add(noise);
+
+
+//     cv.imshow("canvasOutput", imageWithNoise);
+//     showHistogram('canvasHist2', imageWithNoise);
+//     image.delete();
+// });
+
+// Poisson
+let rangeInputPoisson = document.getElementById("poissonRange");
+let rangeValuePoisson = document.getElementById("poissonRangeValue");
+
+rangeInputPoisson.addEventListener("input", function () {
+    rangeValuePoisson.textContent = this.value;
+});
+
+document.getElementById('btn-ruido-poisson').addEventListener('click', () => {
+    let image = cv.imread(imgElement);
+    cv.cvtColor(image, image, cv.COLOR_RGBA2GRAY, 0);
+
+    let lambda = Number(document.getElementById('poissonRange').value);
+
+    let height = image.rows;
+    let width = image.cols;
+
+    for (let row = 0; row < height; row++) {
+        for (let col = 0; col < width; col++) {
+            let pixelValue = image.data[row * width + col];
+            let noise = Math.floor(-Math.log(1 - Math.random()) * lambda);
+            image.data[row * width + col] = Math.max(0, Math.min(255, pixelValue + noise));
+        }
+    }
+
+
+    cv.imshow("canvasOutput", image);
+    showHistogram('canvasHist2', image);
+    image.delete();
+});
+
+
+// Mask
+document.getElementById('btn-mask').addEventListener('click', () => {
+    let image = cv.imread(imgElement);
+    cv.cvtColor(image, image, cv.COLOR_RGBA2GRAY, 0);
+
+
+    // let custom_mask = new cv.Mat(3, 3, cv.CV_32F, [
+    //     -1, -1, -1,
+    //     -1, 8, -1,
+    //     -1, -1, -1
+    // ]);
+
+    // let kernel = new cv.Mat([-1, -1, -1, -1, 8, -1, -1, -1, -1], cv.CV_32F);
+
+
+    // kernel = kernel.reshape(1, 3);
+
+    // let type = kernel.type();
+    // if(type === cv.CV_8UC1) {
+    //     console.log("grayscale image with 1 channel");
+    // }
+    // else if(type === cv.CV_8UC3) {
+    //     console.log("RGB image with 3 channels");
+    // }
+    // else {
+    //     console.log(type);
+    // }
+    // console.log(kernel.channels);
+
+
+    let kernel = new cv.Mat(3, 3, cv.CV_32F);
+
+    // kernel.put(0, 0, -1);
+    // kernel.put(0, 1, -1);
+    // kernel.put(0, 2, -1);
+    // kernel.put(1, 0, -1);
+    // kernel.put(1, 1, 8);
+    // kernel.put(1, 2, -1);
+    // kernel.put(2, 0, -1);
+    // kernel.put(2, 1, -1);
+    // kernel.put(2, 2, -1);
+
+    // for (let x = 0; x < kernel.rows; x++) {
+    //     for (let y = 0; y < kernel.cols; y++) {
+    //         kernel.ucharPtr(x, y)[0] = -1;
+    //     }
+    // }
+    // kernel.ucharPtr(1, 1)[0] = 8;
+
+    // kernel.setTo(new cv.Scalar(-1));
+    kernel.data32F[0] = -2;
+    kernel.data32F[1] = -1;
+    kernel.data32F[2] = 0;
+
+    kernel.data32F[3] = -1;
+    kernel.data32F[4] = 1;
+    kernel.data32F[5] = 1;
+
+    kernel.data32F[6] = 0;
+    kernel.data32F[7] = 1;
+    kernel.data32F[8] = 2;
+
+
+    let result = new cv.Mat();
+    cv.filter2D(image, result, -1, kernel);
+
+
+
+    cv.imshow("canvasOutput", result);
+    showHistogram('canvasHist2', result);
+    image.delete();
+    result.delete();
+});
 
 
 
