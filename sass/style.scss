@@ -15,7 +15,6 @@
     }
 }
 
-
 .container {
     padding: 10px;
     font-family: Rubik;
@@ -58,13 +57,14 @@
     font-weight: lighter;
 }
 
-#canvasOutput {
-    width: 500px;
+.text-description{
+    font-size: 1rem;
+    font-family: Rubik;
+    font-weight: lighter;
 }
 
-.fa-github:hover,
-.fa-linkedin:hover {
-    color: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+#canvasOutput {
+    width: 500px;
 }
 
 #imageSrc {
