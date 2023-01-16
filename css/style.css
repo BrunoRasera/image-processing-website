@@ -17,7 +17,7 @@
 .container-principal {
   border-radius: 10px; /* set the corner radius */
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* add shadow */
-  background: linear-gradient(to bottom right, #fafaff, #f1f1ff); /* add diagonal gradient */
+  background: linear-gradient(to bottom right, #fcfcff, #f4f4fc); /* add diagonal gradient */
   padding: 20px; /* add padding for the interior */
   margin: 5px;
 }

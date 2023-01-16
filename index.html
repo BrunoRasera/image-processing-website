@@ -96,32 +96,6 @@
             </nav>
         </header>
 
-        <!-- <header class="bg-light d-flex justify-content-between align-items-center">
-            <h1 class="text-left fa-github">Processamento de Imagens</h1>
-            <div class="text-right">
-              <button type="button" class="btn" data-toggle="modal" data-target="#howToUseModal">Como usar</button>
-            </div>
-          </header>
-          
-          <div class="modal fade" id="howToUseModal" tabindex="-1" role="dialog" aria-labelledby="howToUseModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="howToUseModalLabel">Como usar</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  Conteúdo do modal
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
 
         <!-- Body -->
         <div class="container">
@@ -132,42 +106,78 @@
                 <!-- Image column -->
                 <div class="col center align-items-center container-centered container-principal">
 
-                        <!-- Image display -->
-                        <div class="container container-image">
-                            <div>
-                                Imagem original
+                    <!-- Image display -->
+                    <div class="container container-image">
+                        <div>
+                            Imagem original
+                        </div>
+                        <br>
+                        <img src="/images/placeholder.jpg" class="img-fluid" id="imageSrc" />
+                    </div>
+
+                    <!-- Histogram display -->
+                    <div class="container">
+                        <div>Histograma <i class="bi bi-question-circle" data-bs-toggle="modal"
+                                data-bs-target="#histogramModal"></i>
+                        </div>
+                        <br>
+
+                        <div class="modal fade" id="histogramModal" tabindex="-1" aria-labelledby="histogramModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="histogramModalLabel">Histograma</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-dark text-responsive">
+                                        <div>
+                                            O histograma de uma imagem é uma representação gráfica da distribuição de
+                                            intensidade de cor em uma imagem. Ele é geralmente representado por um
+                                            gráfico de barras, onde o eixo x representa as intensidades de cor
+                                            (geralmente de 0 a 255 para imagens 8-bit) e o eixo y representa a
+                                            frequência de cada intensidade de cor na imagem.
+                                        </div>
+                                        <br>
+                                        <div>
+                                            Através do histograma, é possível identificar rapidamente a distribuição de
+                                            intensidade de cor na imagem, bem como detectar problemas como saturação de
+                                            cores, falta de contraste e distorção de iluminação.
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Fechar</button>
+                                    </div>
+                                </div>
                             </div>
-                            <br>
-                            <img src="/images/placeholder.jpg" class="img-fluid" id="imageSrc"/>
                         </div>
 
-                        <!-- Histogram display -->
-                        <div class="container">
-                            <div>Histograma</div>
-                            <br>
-                            <canvas id="canvasHist"></canvas>
-                        </div>
+                        <canvas id="canvasHist"></canvas>
+                    </div>
                 </div>
 
 
                 <!-- New image column -->
                 <div class="col center align-items-center container-centered container-principal">
 
-                        <div class="container container-image">
-                            <div>
-                                Nova imagem
-                            </div>
-                            <br>
-                            <canvas id="canvasOutput"></canvas>
+                    <div class="container container-image">
+                        <div>
+                            Nova imagem
                         </div>
-                        <div class="container">
-                            <div>
-                                Novo histograma
-                            </div>
-                            <br>
-                            <canvas id="canvasHist2"></canvas>
+                        <br>
+                        <canvas id="canvasOutput"></canvas>
+                    </div>
+                    <div class="container">
+                        <div>
+                            Novo histograma
                         </div>
-                  
+                        <br>
+                        <canvas id="canvasHist2"></canvas>
+                    </div>
+
 
                 </div>
 
@@ -181,7 +191,7 @@
                     <div class="container container-buttons text-center">
 
                         <!-- Select image button -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
                             data-bs-target="#selectImageModal">
                             Selecionar imagem
                         </button>
@@ -270,7 +280,7 @@
                         </div>
 
                         <!-- Apply effects button -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
                             data-bs-target="#EffectsModal">
                             Aplicar efeitos
                         </button>
@@ -726,7 +736,8 @@
                                                         <div>
                                                             Mask
                                                         </div>
-                                                        <div class="container container-centered text-center align-items-center">
+                                                        <div
+                                                            class="container container-centered text-center align-items-center">
                                                             <form>
                                                                 <div class="form-group row align-items-center">
 
