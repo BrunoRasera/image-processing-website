@@ -1,25 +1,3 @@
-
-// const cv = require("./libs/opencv340");
-
-// const canvas = document.getElementById("canvas-output");
-
-// const imageWidth = 480;
-// const imageHeight = 320;
-
-// canvas.onload = function() {
-
-//     let frame = new cv.Mat();
-//     let frameFiltered = new cv.Mat();
-
-//     frame = cv.imread("images/lena_color.jpg");
-
-//     cv.cvtColor(frame, frameFiltered, cv.COLOR_RGBA2GRAY, 0);
-
-//     cv.imshow(canvas, frameFiltered);
-
-//     frameFiltered.delete();
-// }
-
 function showHistogram(canvasName, image) {
 
     let src = image.clone();
@@ -83,13 +61,7 @@ inputElement.addEventListener('change', (e) => {
     imgElement.onload = function () {
         let image = cv.imread(imgElement);
         showHistogram('canvasHist', image);
-
-        // let newImage = cv.imread(imgElement);
-        // showHistogram('canvasHist2',newImage);
-        // cv.imshow('canvasOutput', newImage);
-
         image.delete();
-        // newImage.delete();
     }
 
 });
@@ -115,7 +87,7 @@ inputSample2.addEventListener('click', () => {
 });
 
 inputSample3.addEventListener('click', () => {
-    imgElement.src = '/images/head.jpg';
+    imgElement.src = '/images/coin.png';
     imgElement.onload = function () {
         let image = cv.imread(imgElement);
         showHistogram('canvasHist', image);
@@ -158,9 +130,16 @@ inputSample6.addEventListener('click', () => {
 // THRESHOLD
 
 // Binary
+let rangeThresold = document.getElementById("thresholdRange");
+let rangeValueThresold = document.getElementById("thresholdValue");
+
+rangeThresold.addEventListener("input", function () {
+    rangeValueThresold.textContent = this.value;
+});
+
 document.getElementById('btn-threshold-binary').addEventListener('click', () => {
     let newImage = cv.imread(imgElement);
-    thres = Number(document.getElementById('threshold-value').value);
+    thres = Number(document.getElementById('thresholdRange').value);
     cv.threshold(newImage, newImage, thres, 255, cv.THRESH_BINARY);
     cv.imshow('canvasOutput', newImage);
     showHistogram('canvasHist2', newImage);
@@ -193,10 +172,24 @@ document.getElementById('btn-threshold-adaptative').addEventListener('click', ()
 
 
 // Canny
+let rangeCanny1 = document.getElementById("threshold1Range");
+let rangeValueCanny1 = document.getElementById("threshold1Value");
+
+rangeCanny1.addEventListener("input", function () {
+    rangeValueCanny1.textContent = this.value;
+});
+
+let rangeCanny2 = document.getElementById("threshold2Range");
+let rangeValueCanny2 = document.getElementById("threshold2Value");
+
+rangeCanny2.addEventListener("input", function () {
+    rangeValueCanny2.textContent = this.value;
+});
+
 document.getElementById('btn-canny').addEventListener('click', () => {
     let newImage = cv.imread(imgElement);
-    thres1 = Number(document.getElementById('canny-threshold1-value').value);
-    thres2 = Number(document.getElementById('canny-threshold2-value').value);
+    thres1 = Number(document.getElementById('threshold1Range').value);
+    thres2 = Number(document.getElementById('threshold2Range').value);
     cv.cvtColor(newImage, newImage, cv.COLOR_RGBA2GRAY, 0);
     cv.Canny(newImage, newImage, thres1, thres2, 3, false);
     cv.imshow('canvasOutput', newImage);
@@ -244,7 +237,7 @@ document.getElementById('btn-fourier').addEventListener('click', () => {
     // in-place dft transform
     cv.dft(complexI, complexI);
 
-    // compute log(1 + sqrt(Re(DFT(img))**2 + Im(DFT(img))**2))
+    // compute log(2 + sqrt(Re(DFT(img))**2 + Im(DFT(img))**2))
     cv.split(complexI, planes);
     cv.magnitude(planes.get(0), planes.get(1), planes.get(0));
     let mag = planes.get(0);
@@ -348,77 +341,6 @@ document.getElementById('btn-segmentation').addEventListener('click', () => {
 
 // NOISE
 
-// Poisson
-
-
-// document.getElementById('btn-ruido-poisson').addEventListener('click', () => {
-//     let image = cv.imread(imgElement);
-//     // Convert image from cv.Mat format to JavaScript array
-//     let imageData = image.getDataAsArray();
-
-//     //thres1 = Number(document.getElementById('PoissonRangeValue').value);
-
-//     for (let x = 0; x < imageData.length; x++) {
-//       for (let y = 0; y < imageData[x].length; y++) {
-//         let poisson = Math.round(Math.random() * imageData[x][y]);
-//         // apply thresholding
-//         if (poisson < 1) poisson = 1;
-//         if (poisson > 254) poisson = 254;
-
-//         imageData[x][y] = poisson;
-//       }
-//     }
-//     // Convert the modified image data back to a cv.Mat
-//     let newImage = new cv.Mat(imageData, cv.CV_8UC3);
-
-//     cv.imshow("canvasOutput", newImage);
-// });
-
-
-// // poisson working 
-// document.getElementById('btn-ruido-poisson').addEventListener('click', () => {
-//     let image = cv.imread(imgElement);
-
-//     let height = image.rows;
-//     let width = image.cols;
-
-//     let channels = image.channels();
-//     let pixel_pos;
-//     console.log(channels);
-
-//     for (let row = 0; row < height; row++) {
-//         for (let col = 0; col < width; col++) {
-//             pixel_pos = (row * width + col) * channels;
-//             let blue = image.data[pixel_pos];
-//             let green = image.data[pixel_pos + 1];
-//             let red = image.data[pixel_pos + 2];
-
-//             // change the value of the pixel
-//             let poissonBlue = Math.round(Math.random() * blue);
-//             // apply thresholding
-//             if (poissonBlue < 1) poissonBlue = 1;
-//             if (poissonBlue > 254) poissonBlue = 254;
-
-//             let poissonGreen = Math.round(Math.random() * green);
-//             // apply thresholding
-//             if (poissonGreen < 1) poissonGreen = 1;
-//             if (poissonGreen > 254) poissonGreen = 254;
-
-//             let poissonRed = Math.round(Math.random() * red);
-//             // apply thresholding
-//             if (poissonRed < 1) poissonRed = 1;
-//             if (poissonRed > 254) poissonRed = 254;
-
-//             image.data[pixel_pos] = poissonBlue;
-//             image.data[pixel_pos + 1] = poissonGreen;
-//             image.data[pixel_pos + 2] = poissonRed;
-//         }
-//     }
-
-//     cv.imshow("canvasOutput", image);
-//     image.delete();
-// });
-
 // Salt and pepper
 let rangeInputSaltPepper = document.getElementById("saltPepperRange");
 let rangeValueSaltPepper = document.getElementById("saltPepperRangeValue");
@@ -456,40 +378,6 @@ document.getElementById('btn-ruido-saltpepper').addEventListener('click', () => 
     newImage.delete();
 });
 
-// Gaussian
-// let rangeInputGaussian = document.getElementById("gaussianRange");
-// let rangeValueGaussian = document.getElementById("gaussianRangeValue");
-
-// rangeInputGaussian.addEventListener("input", function () {
-//     rangeValueGaussian.textContent = this.value;
-// });
-
-// document.getElementById('btn-ruido-gaussian').addEventListener('click', () => {
-//     let image = cv.imread(imgElement);
-//     cv.cvtColor(image, image, cv.COLOR_RGBA2GRAY, 0);
-
-//     let sigma = Number(document.getElementById('gaussianRange').value);
-
-//     let height = image.rows;
-//     let width = image.cols;
-
-//     // for (let row = 0; row < height; row++) {
-//     //     for (let col = 0; col < width; col++) {
-//     //         // let pixelValue = image.data[row * width + col];
-//     //         // image.data[row * width + col] = Math.max(0, Math.min(255, pixelValue + noise));
-
-//     //     }
-//     // }
-//     let noise = cv.randn(new cv.Mat(image.rows, image.cols, cv.CV_8UC1), cv.CV_8UC1, 0);
-
-//     let imageWithNoise = image.add(noise);
-
-
-//     cv.imshow("canvasOutput", imageWithNoise);
-//     showHistogram('canvasHist2', imageWithNoise);
-//     image.delete();
-// });
-
 // Poisson
 let rangeInputPoisson = document.getElementById("poissonRange");
 let rangeValuePoisson = document.getElementById("poissonRangeValue");
@@ -522,73 +410,29 @@ document.getElementById('btn-ruido-poisson').addEventListener('click', () => {
 });
 
 
+// MASKS
+
 // Mask
 document.getElementById('btn-mask').addEventListener('click', () => {
     let image = cv.imread(imgElement);
     cv.cvtColor(image, image, cv.COLOR_RGBA2GRAY, 0);
 
-
-    // let custom_mask = new cv.Mat(3, 3, cv.CV_32F, [
-    //     -1, -1, -1,
-    //     -1, 8, -1,
-    //     -1, -1, -1
-    // ]);
-
-    // let kernel = new cv.Mat([-1, -1, -1, -1, 8, -1, -1, -1, -1], cv.CV_32F);
-
-
-    // kernel = kernel.reshape(1, 3);
-
-    // let type = kernel.type();
-    // if(type === cv.CV_8UC1) {
-    //     console.log("grayscale image with 1 channel");
-    // }
-    // else if(type === cv.CV_8UC3) {
-    //     console.log("RGB image with 3 channels");
-    // }
-    // else {
-    //     console.log(type);
-    // }
-    // console.log(kernel.channels);
-
-
     let kernel = new cv.Mat(3, 3, cv.CV_32F);
 
-    // kernel.put(0, 0, -1);
-    // kernel.put(0, 1, -1);
-    // kernel.put(0, 2, -1);
-    // kernel.put(1, 0, -1);
-    // kernel.put(1, 1, 8);
-    // kernel.put(1, 2, -1);
-    // kernel.put(2, 0, -1);
-    // kernel.put(2, 1, -1);
-    // kernel.put(2, 2, -1);
+    kernel.data32F[0] = Number(document.getElementById('input00').value);
+    kernel.data32F[1] = Number(document.getElementById('input01').value);
+    kernel.data32F[2] = Number(document.getElementById('input02').value);
 
-    // for (let x = 0; x < kernel.rows; x++) {
-    //     for (let y = 0; y < kernel.cols; y++) {
-    //         kernel.ucharPtr(x, y)[0] = -1;
-    //     }
-    // }
-    // kernel.ucharPtr(1, 1)[0] = 8;
+    kernel.data32F[3] = Number(document.getElementById('input10').value);
+    kernel.data32F[4] = Number(document.getElementById('input11').value);
+    kernel.data32F[5] = Number(document.getElementById('input12').value);
 
-    // kernel.setTo(new cv.Scalar(-1));
-    kernel.data32F[0] = -2;
-    kernel.data32F[1] = -1;
-    kernel.data32F[2] = 0;
-
-    kernel.data32F[3] = -1;
-    kernel.data32F[4] = 1;
-    kernel.data32F[5] = 1;
-
-    kernel.data32F[6] = 0;
-    kernel.data32F[7] = 1;
-    kernel.data32F[8] = 2;
-
+    kernel.data32F[6] = Number(document.getElementById('input20').value);
+    kernel.data32F[7] = Number(document.getElementById('input21').value);
+    kernel.data32F[8] = Number(document.getElementById('input22').value);
 
     let result = new cv.Mat();
     cv.filter2D(image, result, -1, kernel);
-
-
 
     cv.imshow("canvasOutput", result);
     showHistogram('canvasHist2', result);
@@ -596,55 +440,142 @@ document.getElementById('btn-mask').addEventListener('click', () => {
     result.delete();
 });
 
+// Media
+document.getElementById("btn-media").addEventListener("click", function() {
+    let matrix = [
+        [0.111, 0.111, 0.111],
+        [0.111, 0.111, 0.111],
+        [0.111, 0.111, 0.111]];
 
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});
 
-// imgElement.onload = function () {
-//     let mat = cv.imread(imgElement);
-//     cv.imshow('canvasOutput', mat);
-//     mat.delete();
-// };
+// Desfocar
+document.getElementById("btn-desfocar").addEventListener("click", function() {
+    let matrix = [
+        [0.25, 0.25, 0.25],
+        [0.25, 0.25, 0.25],
+        [0.25, 0.25, 0.25]];
 
-// inputSample1.onclick = function () {
-//     imgElement.src = '/images/bright_cat.jpg';
-//     let mat = cv.imread(imgElement);
-//     cv.imshow('canvasOutput', mat);
-//     showHistogram(mat);
-//     mat.delete();
-// };
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});
 
-// inputSample2.onclick = function () {
-//     let mat = cv.imread(imgElement);
-//     cv.imshow('canvasOutput', mat);
-//     mat.delete();
-// };
+// Agucar
+document.getElementById("btn-agucar").addEventListener("click", function() {
+    let matrix = [
+        [-1, -1, -1],
+        [-1, 9, -1],
+        [-1, -1, -1]];
 
-// inputSample3.onclick = function () {
-//     let mat = cv.imread(imgElement);
-//     cv.imshow('canvasOutput', mat);
-//     mat.delete();
-// };
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});
 
-// inputSample4.onclick = function () {
-//     let mat = cv.imread(imgElement);
-//     cv.imshow('canvasOutput', mat);
-//     mat.delete();
-// };
+// HiBoost
+document.getElementById("btn-hiboost").addEventListener("click", function() {
+    let matrix = [
+        [0, -1, 0],
+        [-1, 5.2, -1],
+        [0, -1, 0]];
 
-// inputSample5.onclick = function () {
-//     let mat = cv.imread(imgElement);
-//     cv.imshow('canvasOutput', mat);
-//     mat.delete();
-// };
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});
 
-// inputSample6.onclick = function () {
-//     let mat = cv.imread(imgElement);
-//     cv.imshow('canvasOutput', mat);
-//     mat.delete();
-// };
+// Relevo
+document.getElementById("btn-relevo").addEventListener("click", function() {
+    let matrix = [
+        [-2, -1, 0],
+        [-1, 1, 1],
+        [0, 1, 2]];
 
-// var Module = {
-//     // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
-//     onRuntimeInitialized() {
-//         document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
-//     }
-// };
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});
+
+// Horizontal
+document.getElementById("btn-horizontal").addEventListener("click", function() {
+    let matrix = [
+        [-1, 0, 1],
+        [-2, 0, 2],
+        [-1, 0, 1]];
+
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});
+
+// Vertical
+document.getElementById("btn-vertical").addEventListener("click", function() {
+    let matrix = [
+        [-1, -2, -1],
+        [0, 0, 0],
+        [1, 2, 1]];
+
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});
+
+// Laplaciana
+document.getElementById("btn-laplaciana").addEventListener("click", function() {
+    let matrix = [
+        [0, -1, 0],
+        [-1, 4, -1],
+        [0, -1, 0]];
+
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});
+
+// Gaussiana
+document.getElementById("btn-gaussiana").addEventListener("click", function() {
+    let matrix = [
+        [0.0625, 0.125, 0.0625],
+        [0.125, 0.25, 0.125],
+        [0.0625, 0.125, 0.0625]];
+
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});
+
+// Detector de bordas
+document.getElementById("btn-bordas").addEventListener("click", function() {
+    let matrix = [
+        [-1, -1, -1],
+        [-1, 8  , -1],
+        [-1, -1, -1]];
+
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`input${i}${j}`).value = matrix[i][j];
+        }
+    }
+});

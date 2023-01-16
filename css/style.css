@@ -9,13 +9,29 @@
 }
 
 .container {
-  border: solid;
   padding: 10px;
+  font-family: Rubik;
+  font-weight: bold;
+}
+
+.container-principal {
+  border-radius: 10px; /* set the corner radius */
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* add shadow */
+  background: linear-gradient(to bottom right, #fafaff, #f1f1ff); /* add diagonal gradient */
+  padding: 20px; /* add padding for the interior */
+  margin: 5px;
+}
+
+.container-image {
+  min-height: 400px;
+  padding: 20px;
+}
+
+.container-buttons {
+  padding-top: 30px;
 }
 
 .container-fluid {
-  border: solid;
-  border-color: blue;
   padding: 10px;
 }
 
@@ -31,6 +47,11 @@
 
 #canvasOutput {
   width: 500px;
+}
+
+.fa-github:hover,
+.fa-linkedin:hover {
+  color: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
 }
 
 #imageSrc {

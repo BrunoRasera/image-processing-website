@@ -45,7 +45,7 @@
 
     <div class="container-fluid">
         <!-- Header -->
-        <header class="header">
+        <header class="header justify-content-between">
             <nav class="navbar navbar-expand-lg navbar-dark bg-transparent pt-4">
                 <div class="container">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -58,8 +58,8 @@
                                 <a class="nav-link active text-dark" aria-current="page" id="navItem">PROCESSAMENTO DE
                                     IMAGENS</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link active text-dark cursor-pointer" data-bs-toggle="modal"
+                            <li class="nav-item ">
+                                <a class="nav-link active text-dark cursor-pointer  " data-bs-toggle="modal"
                                     data-bs-target="#helpModal" id="navItem">Como usar</a>
 
                                 <!-- Help -->
@@ -96,6 +96,33 @@
             </nav>
         </header>
 
+        <!-- <header class="bg-light d-flex justify-content-between align-items-center">
+            <h1 class="text-left fa-github">Processamento de Imagens</h1>
+            <div class="text-right">
+              <button type="button" class="btn" data-toggle="modal" data-target="#howToUseModal">Como usar</button>
+            </div>
+          </header>
+          
+          <div class="modal fade" id="howToUseModal" tabindex="-1" role="dialog" aria-labelledby="howToUseModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="howToUseModalLabel">Como usar</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Conteúdo do modal
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+
         <!-- Body -->
         <div class="container">
 
@@ -103,39 +130,44 @@
             <div class="row">
 
                 <!-- Image column -->
-                <div class="col center align-items-center">
-                    <div class="container container-centered">
-                        <!-- <img src="./images/lena_color.jpg" class="img-fluid" alt="Lena"> -->
+                <div class="col center align-items-center container-centered container-principal">
 
                         <!-- Image display -->
-                        <div class="container">
-                            <img src="/images/placeholder.jpg" class="img-fluid" id="imageSrc" />
+                        <div class="container container-image">
+                            <div>
+                                Imagem original
+                            </div>
+                            <br>
+                            <img src="/images/placeholder.jpg" class="img-fluid" id="imageSrc"/>
                         </div>
 
                         <!-- Histogram display -->
                         <div class="container">
+                            <div>Histograma</div>
+                            <br>
                             <canvas id="canvasHist"></canvas>
                         </div>
-
-                        <!-- Image information -->
-                        <div class="container text-center">
-
-                        </div>
-
-                    </div>
                 </div>
 
 
                 <!-- New image column -->
-                <div class="col align-items-center">
-                    <div class="container container-centered">
-                        <div class="container">
+                <div class="col center align-items-center container-centered container-principal">
+
+                        <div class="container container-image">
+                            <div>
+                                Nova imagem
+                            </div>
+                            <br>
                             <canvas id="canvasOutput"></canvas>
                         </div>
                         <div class="container">
+                            <div>
+                                Novo histograma
+                            </div>
+                            <br>
                             <canvas id="canvasHist2"></canvas>
                         </div>
-                    </div>
+                  
 
                 </div>
 
@@ -146,11 +178,7 @@
                 <div class="col align-items-center">
 
                     <!-- Buttons -->
-                    <div class="container text-center">
-
-                        <!-- <button type="button" class="btn btn-light">
-                            <i class="bi bi-download text-dark"></i>
-                            Download</button> -->
+                    <div class="container container-buttons text-center">
 
                         <!-- Select image button -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -192,8 +220,8 @@
                                                     </div>
                                                     <div class="col">
                                                         <figure class="figure">
-                                                            <img id="sample-image3" src="./images/head.jpg"
-                                                                class="figure-img img-fluid rounded" alt="head"
+                                                            <img id="sample-image3" src="./images/coin.png"
+                                                                class="figure-img img-fluid rounded" alt="coin"
                                                                 data-bs-dismiss="modal">
                                                             </figcaption>
                                                         </figure>
@@ -291,22 +319,28 @@
                                                                     <div class="accordion-body">
 
                                                                         <div class="mb-3">
-                                                                            <label
-                                                                                for="threshold-value">Probabilidade</label>
-                                                                            <input type="number" name="threshold-value"
-                                                                                id="threshold-value">
+
                                                                             <div>
-                                                                                O valor da
-                                                                                probabilidade. Caso o número
-                                                                                aleatório
-                                                                                seja
-                                                                                menor que ele, o pixel vai ser
-                                                                                substituído
-                                                                                pela cor preta. Caso seja maior
-                                                                                que (1 -
-                                                                                prob), será da cor branca.
-                                                                                Ex: 0.05
+                                                                                Thresholding é um método de segmentação
+                                                                                de imagens que divide uma imagem em duas
+                                                                                regiões: fundo e objeto de interesse.
+                                                                                Isso é feito através do estabelecimento
+                                                                                de um limiar (threshold) que é comparado
+                                                                                com cada pixel da imagem. Pixels com
+                                                                                valores acima do limiar são marcados
+                                                                                como objeto de interesse e pixels abaixo
+                                                                                do limiar são marcados como fundo.
                                                                             </div>
+                                                                            <br>
+
+                                                                            <label for="ThresholdRange"
+                                                                                class="form-label">Limiar</label>
+                                                                            <input type="range" class="form-range"
+                                                                                id="thresholdRange" min="0" max="255"
+                                                                                step="1" value="0">
+                                                                            <p id="thresholdValue"></p>
+
+
                                                                         </div>
 
                                                                         <button type="submit" class="btn btn-primary"
@@ -330,8 +364,22 @@
                                                                     data-bs-parent="#accordionThreshold">
                                                                     <div class="accordion-body">
                                                                         <div>
-                                                                            Texto Otsu
+                                                                            Otsu é um algoritmo de limiarização de
+                                                                            imagens desenvolvido por Nobuyuki Otsu em
+                                                                            1979. Ele é usado para achar o limiar ideal
+                                                                            que melhor separa o objeto de interesse de
+                                                                            um fundo. O algoritmo funciona calcularando
+                                                                            a variancia entre duas classes, fundo e
+                                                                            objeto, em relação ao limiar. O limiar que
+                                                                            maximiza essa variancia é escolhido como o
+                                                                            limiar ideal.
+                                                                            Esse algoritmo é considerado melhor do que o
+                                                                            limiar simples, pois ele é capaz de
+                                                                            determinar automaticamente o limiar ideal
+                                                                            sem a necessidade de escolher manualmente o
+                                                                            limiar.
                                                                         </div>
+                                                                        <br>
                                                                         <button type="submit" class="btn btn-primary"
                                                                             data-bs-dismiss="modal"
                                                                             id="btn-threshold-otsu">Aplicar</button>
@@ -353,11 +401,18 @@
                                                                     data-bs-parent="#accordionThreshold">
                                                                     <div class="accordion-body">
                                                                         <div>
-                                                                            Adaptativo usando media com mascara tamanho
-                                                                            3
+                                                                            Thresholding adaptativo é uma técnica de
+                                                                            limiarização que ajusta dinamicamente o
+                                                                            limiar para diferentes áreas da imagem. Em
+                                                                            vez de usar um único limiar para toda a
+                                                                            imagem, ele calcula diferentes limiares para
+                                                                            diferentes regiões. Isso é útil quando a
+                                                                            iluminação da imagem varia
+                                                                            significativamente em diferentes áreas, o
+                                                                            que pode fazer com que um limiar fixo não
+                                                                            funcione bem.
                                                                         </div>
-
-
+                                                                        <br>
                                                                         <button type="submit" class="btn btn-primary"
                                                                             data-bs-dismiss="modal"
                                                                             id="btn-threshold-adaptative">Aplicar</button>
@@ -384,18 +439,37 @@
                                                     aria-labelledby="headingTwo" data-bs-parent="#accordionEffects">
                                                     <div class="accordion-body">
                                                         <div>
-                                                            Canny
+                                                            O Canny Edge é um algoritmo de detecção de bordas
+                                                            desenvolvido por John F. Canny em 1986. É amplamente
+                                                            utilizado para detectar bordas em imagens, especialmente em
+                                                            aplicações de visão computacional e processamento de
+                                                            imagens. O algoritmo funciona detectando mudanças
+                                                            significativas na intensidade de cor de um pixel para o
+                                                            próximo, conhecido como gradiente. Ele usa uma série de
+                                                            etapas para remover ruído e manter apenas as bordas mais
+                                                            fortes e precisas. Essas etapas incluem suavização da
+                                                            imagem, cálculo do gradiente de intensidade, nivelamento de
+                                                            histerese e eliminação de bordas finas. O algoritmo é capaz
+                                                            de detectar bordas tanto internas quanto externas, e é
+                                                            considerado um dos métodos mais precisos e robustos para
+                                                            detecção de bordas.
                                                         </div>
-                                                        <label for="canny-threshold1-value">Threshold 1</label>
-                                                        <input type="number" name="canny-threshold1-value"
-                                                            id="canny-threshold1-value">
-                                                        <label for="canny-threshold2-value">Threshold 2</label>
-                                                        <input type="number" name="canny-threshold2-value"
-                                                            id="canny-threshold2-value">
+                                                        <br>
+
+                                                        <label for="Threshold1Range" class="form-label">Primeiro
+                                                            imiar</label>
+                                                        <input type="range" class="form-range" id="threshold1Range"
+                                                            min="0" max="255" step="1" value="0">
+                                                        <p id="threshold1Value"></p>
+
+                                                        <label for="Threshold2Range" class="form-label">Segundo
+                                                            imiar</label>
+                                                        <input type="range" class="form-range" id="threshold2Range"
+                                                            min="0" max="255" step="1" value="0">
+                                                        <p id="threshold2Value"></p>
+
                                                         <button type="submit" class="btn btn-primary"
                                                             data-bs-dismiss="modal" id="btn-canny">Aplicar</button>
-
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -413,7 +487,22 @@
                                                 <div id="collapseThree" class="accordion-collapse collapse"
                                                     aria-labelledby="headingThree" data-bs-parent="#accordionEffects">
                                                     <div class="accordion-body">
-
+                                                        <div>
+                                                            A equalização de histograma é uma técnica de processamento
+                                                            de imagem que visa aumentar o contraste em uma imagem. Ela é
+                                                            frequentemente usada para melhorar a visualização de imagens
+                                                            com baixo contraste, como imagens de raio-x ou fotografias
+                                                            antigas. O objetivo é redistribuir os pixels de uma imagem
+                                                            de forma que a distribuição de intensidade de cor fique mais
+                                                            uniforme, de modo que todos os níveis de cor tenham
+                                                            aproximadamente a mesma quantidade de pixels.
+                                                        </div>
+                                                        <br>
+                                                        <div>
+                                                            Para melhor observar seus resultados, use a imagem do gato
+                                                            disponível na seleção de imagens.
+                                                        </div>
+                                                        <br>
                                                         <button type="submit" class="btn btn-primary"
                                                             data-bs-dismiss="modal" id="btn-eq-hist">Aplicar</button>
                                                     </div>
@@ -433,7 +522,25 @@
                                                 <div id="collapseFour" class="accordion-collapse collapse"
                                                     aria-labelledby="headingFour" data-bs-parent="#accordionEffects">
                                                     <div class="accordion-body">
-
+                                                        <div>
+                                                            A Transformada de Fourier é uma técnica matemática
+                                                            amplamente utilizada no processamento de imagens para
+                                                            analisar e filtrar a informação de frequência contida nas
+                                                            imagens.
+                                                        </div>
+                                                        <br>
+                                                        <div>
+                                                            Esta representação permite a análise de diferentes
+                                                            componentes de frequência presentes na imagem, como ruído,
+                                                            textura, bordas, etc. Além disso, também permite a aplicação
+                                                            de filtros para remover ou reforçar componentes de
+                                                            frequência específicos, como por exemplo, filtros
+                                                            passa-baixas e passa-altas. A Transformada de Fourier é
+                                                            amplamente utilizada para diversas aplicações, incluindo
+                                                            compressão de imagens, reconstrução de imagens, análise de
+                                                            frequência e filtragem.
+                                                        </div>
+                                                        <br>
                                                         <button type="submit" class="btn btn-primary"
                                                             data-bs-dismiss="modal" id="btn-fourier">Aplicar</button>
                                                     </div>
@@ -447,12 +554,31 @@
                                                     <button class="accordion-button collapsed" type="button"
                                                         data-bs-toggle="collapse" data-bs-target="#collapseFive"
                                                         aria-expanded="false" aria-controls="collapseFive">
-                                                        Segmentation
+                                                        Segmentação Watershed
                                                     </button>
                                                 </h2>
                                                 <div id="collapseFive" class="accordion-collapse collapse"
                                                     aria-labelledby="headingFive" data-bs-parent="#accordionEffects">
                                                     <div class="accordion-body">
+                                                        <div>
+                                                            A segmentação Watershed é um algoritmo de segmentação
+                                                            baseado em marcas, que é utilizado para segmentar imagens.
+                                                            Ele funciona criando uma grade de marcas sobre a imagem de
+                                                            entrada, onde cada marca representa uma região diferente. O
+                                                            algoritmo então propaga as marcas através da imagem, levando
+                                                            em conta características como intensidade de pixel, cor e
+                                                            distância, para criar regiões distintas. O objetivo final é
+                                                            dividir a imagem em regiões conexas, onde cada região
+                                                            representa uma parte diferente da imagem, como objetos ou
+                                                            fundo.
+                                                        </div>
+                                                        <br>
+
+                                                        <div>
+                                                            Para melhor observar seus resultados, use a imagem das
+                                                            moedas disponível na seleção de imagens.
+                                                        </div>
+                                                        <br>
 
                                                         <button type="submit" class="btn btn-primary"
                                                             data-bs-dismiss="modal"
@@ -490,62 +616,31 @@
                                                                     class="accordion-collapse collapse"
                                                                     data-bs-parent="#accordionThreshold">
                                                                     <div class="accordion-body">
-
-                                                                        <div class="mb-3">
-                                                                            <div>
-                                                                                O valor da
-                                                                                probabilidade. Caso o número
-                                                                                aleatório
-                                                                                seja
-                                                                                menor que ele, o pixel vai ser
-                                                                                substituído
-                                                                                pela cor preta. Caso seja maior
-                                                                                que (1 -
-                                                                                prob), será da cor branca.
-                                                                                Ex: 0.05
-                                                                            </div>
+                                                                        <div>
+                                                                            Ruído Salt and Pepper é um tipo de ruído
+                                                                            que ocorre em imagens digitais, que é
+                                                                            caracterizado por pixels brancos ou
+                                                                            pretos aleatoriamente espalhados pela
+                                                                            imagem. Esse tipo de ruído é causado por
+                                                                            erros de amostragem ou problemas de
+                                                                            transmissão de dados. É chamado de Salt
+                                                                            and Pepper devido ao fato de que os
+                                                                            pixels afetados parecem ser pontos de
+                                                                            sal e pimenta espalhados pela imagem.
                                                                         </div>
+                                                                        <br>
 
                                                                         <label for="saltPepperRange"
-                                                                            class="form-label">Example range</label>
+                                                                            class="form-label">Probabilidade do pixel
+                                                                            virar sal ou pimenta</label>
                                                                         <input type="range" class="form-range"
-                                                                            id="saltPepperRange" min="0" max="1" step="0.01" value="0">
+                                                                            id="saltPepperRange" min="0" max="1"
+                                                                            step="0.01" value="0">
                                                                         <p id="saltPepperRangeValue"></p>
 
                                                                         <button type="submit" class="btn btn-primary"
                                                                             data-bs-dismiss="modal"
                                                                             id="btn-ruido-saltpepper">Aplicar</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Gaussiano -->
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="headingTwoRuido">
-                                                                    <button class="accordion-button collapsed"
-                                                                        type="button" data-bs-toggle="collapse"
-                                                                        data-bs-target="#collapseTwoRuido">
-                                                                        Gaussiano
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="collapseTwoRuido"
-                                                                    class="accordion-collapse collapse"
-                                                                    data-bs-parent="#accordionRuido">
-                                                                    <div class="accordion-body">
-                                                                        <div>
-                                                                            Texto Gaussiano
-                                                                        </div>
-
-                                                                        <label for="gaussianRange"
-                                                                            class="form-label">Example range</label>
-                                                                        <input type="range" class="form-range"
-                                                                            id="gaussianRange" min="0" max="50" step="1" value="0">
-                                                                        <p id="gaussianRangeValue"></p>
-
-
-                                                                        <button type="submit" class="btn btn-primary"
-                                                                            data-bs-dismiss="modal"
-                                                                            id="btn-ruido-gaussian">Aplicar</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -564,12 +659,26 @@
                                                                     data-bs-parent="#accordionRuido">
                                                                     <div class="accordion-body">
                                                                         <div>
-                                                                            Poisson
+                                                                            Ruído de Poisson é um tipo de ruído
+                                                                            estatístico que é comumente encontrado em
+                                                                            imagens digitais adquiridas por meios de
+                                                                            detecção de luz, como câmeras digitais e
+                                                                            sensores de imagem. Ele é causado pelo
+                                                                            processo de conversão de luz para corrente
+                                                                            elétrica no sensor de imagem, que gera
+                                                                            eventos aleatórios de contagem de fótons.
+                                                                            Como resultado, o nível de ruído em cada
+                                                                            pixel é proporcional à intensidade de luz
+                                                                            medida nesse pixel. O ruído de Poisson é
+                                                                            caracterizado por sua distribuição de
+                                                                            probabilidade poissoniana, o que significa
+                                                                            que é mais provável que os pixels com
+                                                                            intensidades mais altas tenham mais ruído.
                                                                         </div>
-
+                                                                        <br>
 
                                                                         <label for="poissonRange"
-                                                                            class="form-label">Example range</label>
+                                                                            class="form-label">Lambda</label>
                                                                         <input type="range" class="form-range"
                                                                             id="poissonRange">
                                                                         <p id="poissonRangeValue"></p>
@@ -595,16 +704,120 @@
                                                     <button class="accordion-button collapsed" type="button"
                                                         data-bs-toggle="collapse" data-bs-target="#collapseSeven"
                                                         aria-expanded="false" aria-controls="collapseSeven">
-                                                        Mask
+                                                        Masks
                                                     </button>
                                                 </h2>
                                                 <div id="collapseSeven" class="accordion-collapse collapse"
                                                     aria-labelledby="headingSeven" data-bs-parent="#accordionEffects">
                                                     <div class="accordion-body">
+                                                        <div>
+                                                            Em processamento de imagens, uma máscara, também conhecida
+                                                            como kernel, é uma matriz pequena de números que é aplicada
+                                                            a uma imagem para realizar operações de processamento de
+                                                            imagem, como filtragem, detecção de bordas e transformações
+                                                            morfológicas. Essas operações envolvem aplicar a máscara a
+                                                            cada pixel da imagem, multiplicando seus valores pelos
+                                                            valores correspondentes na máscara e, em seguida, somando
+                                                            esses valores para obter um novo valor para esse pixel.
+                                                        </div>
+                                                        <br>
 
+                                                        <!-- Matrix for kernel -->
+                                                        <div>
+                                                            Mask
+                                                        </div>
+                                                        <div class="container container-centered text-center align-items-center">
+                                                            <form>
+                                                                <div class="form-group row align-items-center">
+
+                                                                    <div class="col-sm-3 align-items-center">
+                                                                        <input type="number" class="form-control"
+                                                                            id="input00" value="1">
+                                                                    </div>
+
+                                                                    <div class="col-sm-3 align-items-center">
+                                                                        <input type="number" class="form-control"
+                                                                            id="input01" value="1">
+                                                                    </div>
+
+                                                                    <div class="col-sm-3 align-items-center">
+                                                                        <input type="number" class="form-control"
+                                                                            id="input02" value="1">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+
+                                                                    <div class="col-sm-3">
+                                                                        <input type="number" class="form-control"
+                                                                            id="input10" value="1">
+                                                                    </div>
+
+                                                                    <div class="col-sm-3">
+                                                                        <input type="number" class="form-control"
+                                                                            id="input11" value="1">
+                                                                    </div>
+
+                                                                    <div class="col-sm-3">
+                                                                        <input type="number" class="form-control"
+                                                                            id="input12" value="1">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+
+                                                                    <div class="col-sm-3">
+                                                                        <input type="number" class="form-control"
+                                                                            id="input20" value="1">
+                                                                    </div>
+
+                                                                    <div class="col-sm-3">
+                                                                        <input type="number" class="form-control"
+                                                                            id="input21" value="1">
+                                                                    </div>
+
+                                                                    <div class="col-sm-3">
+                                                                        <input type="number" class="form-control"
+                                                                            id="input22" value="1">
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                        <div class="container d-grid gap-1">
+                                                            <button type="button" id="btn-media"
+                                                                class="btn btn-primary btn-sm">Média</button>
+
+                                                            <button type="button" id="btn-desfocar"
+                                                                class="btn btn-primary btn-sm">Desfocar</button>
+
+                                                            <button type="button" id="btn-agucar"
+                                                                class="btn btn-primary btn-sm">Aguçar</button>
+
+                                                            <button type="button" id="btn-hiboost"
+                                                                class="btn btn-primary btn-sm">HiBoost</button>
+
+                                                            <button type="button" id="btn-relevo"
+                                                                class="btn btn-primary btn-sm">Relevo</button>
+
+                                                            <button type="button" id="btn-horizontal"
+                                                                class="btn btn-primary btn-sm">Horizontal</button>
+
+                                                            <button type="button" id="btn-vertical"
+                                                                class="btn btn-primary btn-sm">Vertical</button>
+
+                                                            <button type="button" id="btn-laplaciana"
+                                                                class="btn btn-primary btn-sm">Laplaciana</button>
+
+                                                            <button type="button" id="btn-gaussiana"
+                                                                class="btn btn-primary btn-sm">Gaussiana</button>
+
+                                                            <button type="button" id="btn-bordas"
+                                                                class="btn btn-primary btn-sm">Detector de
+                                                                Bordas</button>
+                                                        </div>
+
+                                                        <br>
                                                         <button type="submit" class="btn btn-primary"
-                                                            data-bs-dismiss="modal"
-                                                            id="btn-mask">Aplicar</button>
+                                                            data-bs-dismiss="modal" id="btn-mask">Aplicar</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -626,13 +839,31 @@
 
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary" id="btn-teste">
-                            Baixar nova imagem
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <footer class="bg-light text-dark py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>Desenvolvido por Bruno Rasera
+                            <a href="https://github.com/brunorasera" target="_blank" class="btn btn-social text-center">
+                                <i class="bi bi-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/bruno-rasera/" target="_blank"
+                                class="btn btn-social text-center">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
     </div>
 
 
